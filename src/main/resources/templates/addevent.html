@@ -36,7 +36,6 @@
                                 </ul>
                             </nav>
 
-
                             <!-- Hamburger -->
 
                             <div class="hamburger ml-auto">
@@ -161,8 +160,7 @@
                             <form action="/search" class="home_search_form" id="home_search_form">
                                 <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
                                     <input type="text" class="search_input search_input_1"
-                                           placeholder="Enter the event name" name="eve_name"
-                                           id="eve_name">
+                                           placeholder="Enter the event name" required="required" name="eve_name" id="eve_name">
 
 
                                     <select name='eve_type' id='eve_type' class='search_input selectpicker'>
@@ -180,7 +178,7 @@
                                     </select>
 
 
-                                    <select name="eve_place" id="eve_place" class="selectpicker search_input">
+                                    <select name="eve_place" id="eve_place"  class="selectpicker search_input">
                                         <option value="0" selected>All the places</option>
                                         <option value="1">Hà Nội</option>
                                         <option value="2">Nha Trang</option>
@@ -189,8 +187,7 @@
                                     </select>
 
 
-                                    <select name="eve_time" id="eve_time"
-                                            class="selectpicker select_alltime search_input" style="z-index: 9999">
+                                    <select name="eve_time" id="eve_time" class="selectpicker select_alltime search_input" style="z-index: 9999">
                                         <option value="0">All times</option>
                                         <option value="today">To day</option>
                                         <option value="tomorrow">Tomorow</option>
@@ -304,14 +301,13 @@
                                     <a href="#" th:text="${event.sold +'/'+ event.quantity + ' sold'}"></a></div>
                             </div>
                             <div class="destination_content">
-                                <div class="destination_title"><a th:href="@{'/'+event(id=${event.id})}"
+                                <div class="destination_title"><a th:href="@{/event(id=${event.id})}"
                                                                   th:text="${event.title}"></a></div>
-                                <div class="destination_view"><a th:href="@{'/'+event(id=${event.id})}"
+                                <div class="destination_view"><a th:href="@{/event(id=${event.id})}"
                                                                  th:text="${event.description}"></a></div>
                                 <div class="destination_subtitle"><p
                                         th:text="${event.address + ' - ' + event.place }"></p></div>
-                                <div class="destination_subtitle"><p
-                                        th:text="${ #dates.format(new java.util.Date(event.start_at)) }"></p></div>
+                                <div class="destination_subtitle"><p th:text="${ event.start_at }"></p></div>
                                 <div class="destination_price" th:text="${ 'From ' + event.price +' VND'}"></div>
                             </div>
                         </div>
@@ -602,45 +598,5 @@
 <script src="js/custom.js"></script>
 <script src="js/head.js"></script>
 
-
-<script>
-    $("#info").click(function () {
-        var session = getCookie('JSESSION');
-        console.log(session)
-        if (session.length < 10) {
-            document.location.href = '/login';
-        } else {
-            var body = {
-                session: session,
-            };
-            $.ajax({
-                type: "POST",
-                url: "/user",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(body),
-                success: function (resp) {
-                },
-                error: function (resp) {
-                }
-            });
-        }
-    });
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-
-</script>
 </body>
 </html>
